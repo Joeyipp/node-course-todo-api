@@ -1,3 +1,5 @@
+// Test suite: npm i expect mocha nodemon supertest --save-dev
+
 // Body-parser allows us to send JSON to the server
 // Parses the string (JSON) and turns it into JS object
 var express = require('express');
@@ -31,4 +33,6 @@ app.post('/todos', (req, res) => {
 
 app.listen(3000, () => {
   console.log('Started on port 3000');
-})
+});
+
+module.exports = {app};
