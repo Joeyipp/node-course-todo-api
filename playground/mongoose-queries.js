@@ -7,36 +7,36 @@ const {mongoose} = require('./../server/db/mongoose');
 const {Todo} = require('./../server/models/todo');
 const {User} = require('./../server/models/user');
 
-// var id = '59f0ea11c772352b6cf1ed8511';
-//
-// // Check if ObjectID is valid?
-// if (!ObjectID.isValid(id)) {
-//   console.log('ID not valid');
-// }
+var id = '59f0ea11c772352b6cf1ed8511';
 
-// // Mongoose doesn't require you to create a new ObjectID like mongoDB native
-// // Find by ObjectID
-// Todo.find({
-//   _id: id
-// }).then((todos) => {
-//   console.log('Todos', todos);
-// });
-//
-// // Return 1 document at most
-// // Grab the first one that matches the query
-// Todo.findOne({
-//   _id: id
-// }).then((todo) => {
-//   console.log('Todo', todo);
-// });
+// Check if ObjectID is valid?
+if (!ObjectID.isValid(id)) {
+  console.log('ID not valid');
+}
 
-// // Find By Id
-// Todo.findById(id).then((todo) => {
-//   if (!todo) {
-//     return console.log('Id not found');
-//   }
-//   console.log('Todo By Id', todo);
-// }).catch((e) => console.log(e));
+// Mongoose doesn't require you to create a new ObjectID like mongoDB native
+// Find by ObjectID
+Todo.find({
+  _id: id
+}).then((todos) => {
+  console.log('Todos', todos);
+});
+
+// Return 1 document at most
+// Grab the first one that matches the query
+Todo.findOne({
+  _id: id
+}).then((todo) => {
+  console.log('Todo', todo);
+});
+
+// Find By Id
+Todo.findById(id).then((todo) => {
+  if (!todo) {
+    return console.log('Id not found');
+  }
+  console.log('Todo By Id', todo);
+}).catch((e) => console.log(e));
 
 // Case 1 - Query works but invalid (User not found)
 // Case 2 - User was found & print
