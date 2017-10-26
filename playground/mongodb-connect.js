@@ -1,3 +1,5 @@
+// db.collection('Users').insertOne()
+
 // ObjectID is a 12 byte value (1st 4 bytes is timestamp, next 3 bytes are machine-identifier, next 2 bytes are process id, next 3 byte-counter)
 // ObjectID is the default way MongoDB creates id, but you can provide your own _id: 123 (Efficient scaling, do not need to increment from existing ID)
 
@@ -43,7 +45,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
   // });
 
   // Insert new doc into Users (name, age, location)
-  db.collection('Users').insertOne({
+  db.collection('users').insertOne({
     name: "Andrew",
     age: 25,
     location: "Ohio"

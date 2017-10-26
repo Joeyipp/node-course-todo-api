@@ -1,3 +1,6 @@
+// db.collection('Users').deleteMany()
+// db.collection('Users').deleteOne()
+// db.collection('Users').findOneAndDelete()
 
 const {MongoClient, ObjectID} = require('mongodb');
 

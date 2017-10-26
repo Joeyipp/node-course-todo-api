@@ -1,3 +1,4 @@
+// db.collection('Todos').find().toArray()
 
 const {MongoClient, ObjectID} = require('mongodb');
 
