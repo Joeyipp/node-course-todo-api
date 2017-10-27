@@ -1,5 +1,17 @@
 // Test suite: npm i expect mocha nodemon supertest --save-dev
 
+// Steps to deploy on Heroku
+// 1. Set const port = process.env.PORT || 3000
+// 2. Change port on app.listen()
+// 3. Add start script "start": "node server/server.js"
+// 4. Tell Heroku which node engine/ version we are using
+// "engines": {"node": "8.4.0"}
+// 5. Setup Heroku Add-on: Configure Add-on, Find More Add-on, mLab MongoDB
+// 6. heroku create
+// 7. heroku addons:create mongolab:sandbox
+// 8. heroku config (get config variables for installed add-ons)
+// 9. Update mongoose.js DB Url (mongoose.connect())
+
 // Body-parser allows us to send JSON to the server
 // Parses the string (JSON) and turns it into JS object
 var express = require('express');
@@ -12,6 +24,7 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -68,10 +81,8 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
-
-
-app.listen(3000, () => {
-  console.log('Started on port 3000');
+app.listen(port, () => {
+  console.log(`Started on port ${port}`);
 });
 
 module.exports = {app};
