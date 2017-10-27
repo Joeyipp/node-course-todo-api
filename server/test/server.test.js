@@ -1,3 +1,10 @@
+// Upgrade Expect v1 => v21
+// ToExist => ToBeTruthy
+// ToNotExist => toBeFalsy
+// ToBeA no longer exist, use (typeof ...).toBe('number')
+// ToNotBe no longer exist, use .not.toBe(...)
+// ToInclude => toMatchObject expect(user.toObject().tokens[1]).toMatchObject(...)
+
 const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');
@@ -128,7 +135,7 @@ describe('DELETE /todos/:id', () => {
         // Query database using findById toNotExist
         // expect(null).toNotExist();
         Todo.findById(hexId).then((todo) => {
-          expect(todo).toNotExist();
+          expect(todo).toBeFalsy();
           done();
         }).catch((e) => done(e));
       });
@@ -150,3 +157,6 @@ describe('DELETE /todos/:id', () => {
       .end(done);
   });
 });
+
+// PATCH
+// expect(typeof res.body.todo.completedAt).toBe('number');

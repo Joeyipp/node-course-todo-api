@@ -1,4 +1,5 @@
 // Test suite: npm i expect mocha nodemon supertest --save-dev
+// GET, DELETE, UPDATE, CREATE
 
 // Steps to deploy on Heroku
 // 1. Set const port = process.env.PORT || 3000
@@ -22,9 +23,10 @@
 
 // Body-parser allows us to send JSON to the server
 // Parses the string (JSON) and turns it into JS object
-var express = require('express');
-var bodyParser = require('body-parser');
-var {ObjectID} = require('mongodb');
+const _ = require('lodash');
+const express = require('express');
+const bodyParser = require('body-parser');
+const {ObjectID} = require('mongodb');
 
 // Local Imports
 var {moongoose} = require('./db/mongoose');
@@ -113,6 +115,37 @@ app.delete('/todos/:id', (req, res) => {
   }).catch((e) => {
     res.status(400).send();
   });
+});
+
+// PATCH - Update a resource
+app.patch('/todos/:id', (req, res) => {
+  var id = req.params.id;
+  // Pick takes an object and takes an array of properties you want to pull off
+  // if they exist
+  var body = _.pick(req.body, ['text', 'completed']);
+
+  if(!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  if (_.isBoolean(body.completed) && body.completed) {
+    body.completedAt = new Date().getTime();
+  }
+  else {
+    body.completed = false;
+    body.completedAt = null;
+  }
+
+  // new (mongoose) => returnOriginal (mongodb)
+  Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+    if (!todo) {
+      return res.status(404).send();
+    }
+    res.send({todo});
+  }).catch((e) => {
+    res.status(400).send();
+  })
+
 });
 
 app.listen(port, () => {
