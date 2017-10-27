@@ -11,6 +11,12 @@
 // 7. heroku addons:create mongolab:sandbox
 // 8. heroku config (get config variables for installed add-ons)
 // 9. Update mongoose.js DB Url (mongoose.connect())
+// 10. heroku logs (show logs)
+
+// Rename a heroku app
+// git remote rm heroku
+// git remote add heroku git@heroku.com:yourappname.git
+// OR heroku create
 
 // Body-parser allows us to send JSON to the server
 // Parses the string (JSON) and turns it into JS object
