@@ -11,7 +11,9 @@
 // 7. heroku addons:create mongolab:sandbox
 // 8. heroku config (get config variables for installed add-ons)
 // 9. Update mongoose.js DB Url (mongoose.connect())
-// 10. heroku logs (show logs)
+// 10. git push heroku master
+// 11. heroku logs (show logs)
+// 12. heroku open
 
 // Rename a heroku app
 // git remote rm heroku
@@ -82,6 +84,32 @@ app.get('/todos/:id', (req, res) => {
       return res.status(404).send();
     }
     res.status(200).send({todo});
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+// DELETE /todos/12345324
+app.delete('/todos/:id', (req, res) => {
+  // Get the Id
+  var id = req.params.id;
+
+  // Validate the id -> not valid? return 404
+  if(!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+
+  // Remove todo by id
+    // success
+      // If no doc, send 404
+      // If doc, send doc back with status 200
+    // error
+      // 400 with empty body
+  Todo.findByIdAndRemove(id).then((todo) => {
+    if(!todo) {
+      return res.status(404).send();
+    }
+    res.status(200).send(todo);
   }).catch((e) => {
     res.status(400).send();
   });
