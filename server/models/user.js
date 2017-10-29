@@ -1,7 +1,12 @@
+// Mongoose middleware lets you run a certain code before or after a certain event
+// Run some code before an update event or a document is saved
+// Run some code after an update event
+
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const bcrypt = require('bcryptjs');
 
 // Schema defines the attributes of a model
 var UserSchema = new mongoose.Schema({
@@ -83,6 +88,24 @@ UserSchema.statics.findByToken = function (token) {
     'tokens.access': 'auth'
   });
 };
+
+// Run some code before an event
+// In this case, before saving the doc to the database
+UserSchema.pre('save', function (next) {
+  var user = this;
+
+  if (user.isModified('password')) {
+    // user.password
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    next();
+  };
+});
 
 var User = mongoose.model('User', UserSchema);
 
