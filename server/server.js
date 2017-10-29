@@ -1,5 +1,7 @@
 // Test suite: npm i expect mocha nodemon supertest --save-dev
 // GET, DELETE, UPDATE, CREATE
+// MongoDB, Mongoose, API, Postman, Routes
+// Token System: String that get sent back by our signup/ login request, passed as a header
 
 // Steps to deploy on Heroku
 // 1. Set const port = process.env.PORT || 3000
@@ -148,6 +150,25 @@ app.patch('/todos/:id', (req, res) => {
     res.status(400).send();
   })
 
+});
+
+// POST /users
+// _.pick
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  var user = new User(body);
+
+  // Models method and instances method
+  user.save().then((user) => {
+    return user.generateAuthToken();
+  }).then((token) => {
+    // Send the token back as a HTTP response header
+    // header() takes 2 arguments, key-value pairs
+    // x-auth = custom header
+    res.header('x-auth', token).send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
 });
 
 app.listen(port, () => {
