@@ -46,7 +46,7 @@ UserSchema.methods.toJSON = function () {
   return _.pick(userObject, ['_id', 'email']);
 }
 
-// Methods is an object
+// Methods is an object || instance methods
 // Arrow function does not bind the *this keyword
 // *this stores the individual document
 UserSchema.methods.generateAuthToken = function() {
@@ -58,6 +58,29 @@ UserSchema.methods.generateAuthToken = function() {
 
   return user.save().then(() => {
     return token;
+  });
+};
+
+// Model methods
+UserSchema.statics.findByToken = function (token) {
+  var User = this; // Model
+  var decoded;
+
+  try {
+    decoded = jwt.verify(token, 'abc123');
+  } catch (e) {
+    // return new new Promise((resolve, reject) => {
+    //   reject();
+    // });
+    // Any message passed into reject(...) will be sent back to the catch call as e
+    return Promise.reject();
+  };
+
+  return User.findOne({
+    '_id': decoded._id,
+    // To query a nested document, wrap the value in quotes
+    'tokens.token': token,
+    'tokens.access': 'auth'
   });
 };
 

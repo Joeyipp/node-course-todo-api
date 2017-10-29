@@ -36,6 +36,7 @@ const {ObjectID} = require('mongodb');
 var {moongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
+var {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 const port = process.env.PORT;
@@ -169,6 +170,33 @@ app.post('/users', (req, res) => {
   }).catch((e) => {
     res.status(400).send(e);
   });
+});
+
+// // Middleware function
+// var authenticate = (req, res, next) => {
+//   var token = req.header('x-auth');
+//
+//   User.findByToken(token).then((user) => {
+//     if (!user) {
+//       // Promise.reject will execute the catch (e) block
+//       return Promise.reject();
+//     }
+//     // Modify the request object
+//     // Able to use the modified request object in the routes below
+//     req.user = user;
+//     req.token = token;
+//     next();
+//   }).catch((e) => {
+//     // 401 = Authentication required
+//     res.status(401).send();
+//   });
+// };
+
+// Require authentication + x-auth token
+// Find the associate user + send the user back
+// Reference the function to use the middleware
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
 });
 
 app.listen(port, () => {
