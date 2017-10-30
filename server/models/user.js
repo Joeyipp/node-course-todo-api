@@ -66,7 +66,7 @@ UserSchema.methods.generateAuthToken = function() {
   });
 };
 
-// Model methods
+// Model methods (Collection)
 UserSchema.statics.findByToken = function (token) {
   var User = this; // Model
   var decoded;
@@ -86,6 +86,27 @@ UserSchema.statics.findByToken = function (token) {
     // To query a nested document, wrap the value in quotes
     'tokens.token': token,
     'tokens.access': 'auth'
+  });
+};
+
+UserSchema.statics.findByCredentials = function (email, password) {
+  var User = this;
+
+  return User.findOne({email}).then((user) => {
+    if (!user) {
+      return Promise.reject();
+    }
+
+    // bcrypt only support callbacks
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          resolve(user);
+        } else {
+          reject();
+        }
+      });
+    });
   });
 };
 
