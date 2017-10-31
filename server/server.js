@@ -18,6 +18,9 @@
 // 10. git push heroku master
 // 11. heroku logs (show logs)
 // 12. heroku open
+// 13. heroku config:set NAME=VALUE (Configure new custom key-value env pairs)
+// 14. heroku config:get NAME (Get single config value)
+// 15. heroku config:unset NAME (Remove an env variable)
 
 // Rename a heroku app
 // git remote rm heroku
