@@ -2,6 +2,7 @@
 // Export (Linux, OSX) || SET (windows) && (Chain commands)
 // "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha server/**/*.test.js",
 // Local environment does not have process.env.NODE_ENV (Only on Heroku)
+// MONGODB_URI: (PROTOCOL) mongodb:// (USERNAME:PASSWORD) @ (ADDRESS:PORT) / (DBNAME)
 var env = process.env.NODE_ENV || 'development';
 
 // System to manage local environment
